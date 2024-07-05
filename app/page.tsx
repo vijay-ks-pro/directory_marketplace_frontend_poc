@@ -1,95 +1,43 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { Flex } from "@chakra-ui/react";
+import LinkButton from "@/lib/components/link_button";
+import axiosClient from "@/lib/utils/axios";
+import { ProductMinimal } from "./advertiser/product/page";
+import { cookies, headers } from "next/headers";
+import Homepage from "@/lib/pages/homepage";
+import { getHeaderOrigin } from "@/lib/utils/utill_methods";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+export const dynamic = 'force-dynamic'
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const getProductList = async (): Promise<ProductMinimal[]> => {
+    const origin = getHeaderOrigin(headers())
+    try {
+        const res = await axiosClient.get('/customer/listing', { headers: { origin: origin } });
+        if(res.data && res.data.success) {
+            return res.data.data;
+        }
+    } catch(error: any) {
+        console.log('api error on page: /', error?.response?.data)
+    }
+    return [];
+}
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+export default async function Home() {
+    const productList = await getProductList();
+    const authToken = cookies().get('auth_token');
+    const isLoggedIn = authToken != null && authToken.value != null && authToken.value != '';
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    return (
+        <Flex w = '100%' direction={'column'}>
+            <Flex zIndex={999} h = '70px' w = '100%' bg = 'white' gap = '20px' position={'fixed'} top = {'0px'} left = {'0px'} alignItems={'center'} justifyContent={'flex-end'} px = '20px' boxShadow={'rgba(33, 35, 38, 0.1) 0px 10px 10px -10px'}>
+                <LinkButton label = 'Owner' href='/owner/template' />
+                <LinkButton label = 'Advertiser' href='/advertiser/product' />
+                {
+                    isLoggedIn == false ?
+                    <LinkButton label = 'Login' href='/login' /> :
+                    <LinkButton label = 'Logout' href='/logout' />
+                }
+            </Flex>
+            <Homepage productList={productList} />
+        </Flex>
+    );
 }
