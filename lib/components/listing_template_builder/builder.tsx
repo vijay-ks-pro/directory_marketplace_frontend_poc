@@ -319,7 +319,7 @@ const ListingTemplateBuilder = React.forwardRef<{ getFormData: () => Omit<Templa
     return (
         <Flex w = '100%' gap = '20px' h= '100%' direction={'column'}>
             <Flex 
-                w = 'fit-content' minW = '100%' h = 'fit-content' 
+                w = '100%' minW = '100%' h = 'fit-content'  mb = '40px'
                 direction={'column'} gap = '10px' p = '10px' transition={'background 300ms ease-out'}
                 bg = {draggingElement?.data?.current?.type == 'ROW' ? 'rgb(235, 235, 235, 1)' : 'white'} borderRadius={'12px'}
                 boxShadow={'0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), 0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15)'}
@@ -555,7 +555,7 @@ type RowProps = {
 
 const Row = ({ dragHandleProps, position, children, onRemove, style, isOver = false }: RowProps) => {
     return (
-        <Flex direction={'column'} w = '100%' minH = '200px' border = '1px' borderRadius={'8px'} borderColor={'brand.borderColor'} {...style}>
+        <Flex direction={'column'} w = '100%' minH = '200px' border = '1px' borderRadius={'8px'} borderColor={'brand.borderColor'} {...style}  bg = {isOver ? 'rgb(235, 235, 235, 1)' : 'white'} transition={'background 300ms ease-out'}>
             <Flex gap = '20px' flexShrink={0} w = '100%' h = '50px' bg = 'green.100' borderBottom = '1px' borderTopRadius={'8px'} borderColor={'brand.borderColor'} alignItems={'center'} px = '10px'>
                 <Heading size = 'sm'>Row {position + 1}</Heading>
                 <Flex w = '80px' h = '100%' alignItems={'center'} gap = '5px' >
@@ -565,7 +565,7 @@ const Row = ({ dragHandleProps, position, children, onRemove, style, isOver = fa
                     <IconButton onClick = {onRemove} variant={'ghost'} size = 'sm' aria-label="Delete Row Icon" icon = {<Icon as = {FaRegTrashCan} w = '17px' h = '17px' />} />
                 </Flex>
             </Flex>
-            <Flex w = '100%' bg = {isOver ? 'rgb(235, 235, 235, 1)' : 'white'} transition={'background 300ms ease-out'} borderBottomRadius={'8px'} borderColor={'brand.borderColor'} p = '10px' gap = '10px'>
+            <Flex w = '100%' overflowX={'auto'} mb = '5px' borderBottomRadius={'8px'} borderColor={'brand.borderColor'} p = '10px' gap = '10px'>
                 {children}
             </Flex>
         </Flex>
@@ -582,7 +582,7 @@ type ColumnProps = {
 
 const Column = ({ dragHandleProps, position, children, onRemove, style, isOver = false }: ColumnProps) => {
     return (
-        <Flex direction={'column'} minW = '400px' w = '400px' minH = '400px' border = '1px' borderRadius={'8px'} borderColor={'brand.borderColor'} {...style} >
+        <Flex direction={'column'} minW = '400px' w = '400px' minH = '400px' border = '1px' borderRadius={'8px'} borderColor={'brand.borderColor'} {...style} bg = {isOver ? 'rgb(235, 235, 235, 1)' : 'white'} transition={'background 300ms ease-out'} >
             <Flex gap = '20px' w = '100%' h = '50px' flexShrink={0} bg = 'orange.100' borderTopRadius={'8px'} alignItems={'center'} pl = '10px' >
                 <Heading size = 'sm'>Column {position + 1}</Heading>
                 <Flex w = '80px' h = '100%' alignItems={'center'} gap = '5px' >
@@ -592,7 +592,7 @@ const Column = ({ dragHandleProps, position, children, onRemove, style, isOver =
                     <IconButton onClick = {onRemove} variant={'ghost'} size = 'sm' aria-label="Delete Column Icon" icon = {<Icon as = {FaRegTrashCan} w = '17px' h = '17px' />} />
                 </Flex>
             </Flex>
-            <Flex flexGrow={1} direction={'column'} w = '100%' bg = {isOver ? 'rgb(235, 235, 235, 1)' : 'white'} transition={'background 300ms ease-out'} borderTop={'1px'} borderBottomRadius={'8px'} borderColor={'brand.borderColor'} p = '10px' gap = '10px'>
+            <Flex flexGrow={1} direction={'column'} w = '100%' borderTop={'1px'} borderBottomRadius={'8px'} borderColor={'brand.borderColor'} p = '10px' gap = '10px'>
                 {children}
             </Flex>
         </Flex>

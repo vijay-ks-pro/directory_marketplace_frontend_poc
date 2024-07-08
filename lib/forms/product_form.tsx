@@ -80,7 +80,7 @@ const ProductForm = ({ templateList, onSubmit, initialData, isSubmitting }: Prod
 
     return (
         <Flex w = '100%' direction={'column'} py = '100px' px = {['20px', '20px', '20px', '50px', '50px']} gap = '20px'>
-            <Flex zIndex={999} h = '70px' w = '100%' bg = 'white' position={'fixed'} top = {'0px'} left = {'0px'} alignItems={'center'} justifyContent={'flex-end'} px = '20px' boxShadow={'rgba(33, 35, 38, 0.1) 0px 10px 10px -10px'}>
+            <Flex zIndex={999} h = '70px' w = '100vw' bg = 'white' position={'fixed'} top = {'0px'} left = {'0px'} alignItems={'center'} justifyContent={'flex-end'} px = '20px' boxShadow={'rgba(33, 35, 38, 0.1) 0px 10px 10px -10px'}>
                 <Button onClick = {onClickSave} isLoading = {isSubmitting} maxH = '40px' colorScheme='black' px = '30px'>Save</Button>
             </Flex>
             <Flex w = '100%' direction={'column'} p = '20px' gap = '10px' bg = 'white' borderRadius={'12px'} boxShadow={'0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05), 0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15)'}>
